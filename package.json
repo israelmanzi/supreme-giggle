@@ -1,0 +1,20 @@
+{
+  "name": "wifi_rename",
+  "version": "0.0.1",
+  "description": "Automate Wi-Fi renaming process!",
+  "main": "main.js",
+  "repository": "https://github.com/israelmanzi/supreme-giggle.git",
+  "author": "Israel Manzi",
+  "license": "BSD 3-Clause License",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "puppeteer": "^20.1.2"
+  },
+  "scripts": {
+    "start": "node main.js"
+  },
+  "devDependencies": {
+    "generate-password": "^1.7.0"
+  }
+}
