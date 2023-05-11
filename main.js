@@ -1,11 +1,17 @@
 const puppetter = require("puppeteer");
 const generator = require("generate-password");
+require("dotenv").config();
 
 (async () => {
   const browser = await puppetter.launch({
     headless: false,
-    executablePath:
-      "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+    executablePath: process.env.CHROME_PATH,
+    args: ["--start-maximized"],
+    ignoreHTTPSErrors: true,
+    defaultViewport: {
+      width: 1920,
+      height: 1080,
+    },
   });
 
   var [page] = await browser.pages();
@@ -19,22 +25,15 @@ const generator = require("generate-password");
 
   await page.focus("#login_password");
 
-  await page.keyboard.type("eVPNiVq$");
-
-  //   await page.type("#login_password", "eVPNiVq$");
+  await page.keyboard.type(process.env.ROUTER_KEY);
 
   await page.click("#login_btn");
 
-  //   const error_div = await page.$("#login_error_info");
-
-  //   if (error_div) {
-  //     console.log(
-  //       "Error: ",
-  //       await page.evaluate((el) => el.textContent, error_div)
-  //     );
-  //     page.close();
-  //     return;
-  //   }
+  // if (page.select("#login_error_info")) {
+  //   console.log("Error: ", await page.evaluate((el) => el.textContent));
+  //   page.close();
+  //   return;
+  // }
 
   await page.waitForSelector("#menu_top_wifisettings");
   await page.goto("http://192.168.8.1/html/content.html#wifieasy");
@@ -66,6 +65,10 @@ const generator = require("generate-password");
 
   await page.type("#wifi_singlechip_wpa_key", newSSID);
 
+  await page.waitForSelector("#wifi_btn_save");
+
+  await page.click("#wifi_btn_save");
+
   console.log(
     "NEW_SSID: ",
     await page.evaluate(
@@ -73,7 +76,5 @@ const generator = require("generate-password");
     )
   );
 
-  await page.waitForSelector("#wifi_btn_save");
-
-  await page.click("#wifi_btn_save");
+  page.close();
 })();
